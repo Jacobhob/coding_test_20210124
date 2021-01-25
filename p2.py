@@ -30,7 +30,7 @@ def correct(original: pd.Series, window=20, threshold_abs=2.5, fill='average'):
     # Check z-score with a rolling window. Append to outliers list if one is found.
     zscore = ((original - original.rolling(window=window, min_periods=window, center=True).mean())/
         original.rolling(window=window, min_periods=window, center=True).std()).dropna()
-    if np.any(np.abs(zscore) > threshold_abs):
+    if np.any(np.abs(zscore) >= threshold_abs):
         outliers += list(i for i in zscore[np.abs(zscore) >= threshold_abs].dropna().index.values)
 
     # Same. Find if any outliers among the last [window/2] numbers.
